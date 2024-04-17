@@ -16,8 +16,33 @@ export default class NewBill {
     new Logout({ document, localStorage, onNavigate })
   }
   handleChangeFile = e => {
-    e.preventDefault()
-    const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
+    e.preventDefault();
+    const fileInput = this.document.querySelector(`input[data-testid="file"]`);
+    const file = fileInput.files[0];
+  
+    if (!file) {
+      // Handle case where no file is selected
+      return;
+    }
+  
+    // Check if the file is an image
+    const isPicture = (mimeType) => ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'].includes(mimeType);
+  
+    if (!isPicture(file.type)) {
+      // Handle case where the selected file is not an image
+      const errorElement = document.createElement('div');
+      errorElement.textContent = "Le fichier sélectionné n'est pas une image. Veuillez sélectionner un fichier image (JPEG, JPG, PNG, GIF).";
+      errorElement.style.color = 'red';
+  
+      // Display the error message
+      fileInput.parentNode.appendChild(errorElement);
+  
+      // Reset the file input to allow selecting a new file
+      fileInput.value = '';
+  
+      return;
+    }
+  
     const filePath = e.target.value.split(/\\/g)
     const fileName = filePath[filePath.length-1]
     const formData = new FormData()
