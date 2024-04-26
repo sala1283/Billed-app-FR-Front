@@ -119,6 +119,7 @@ export default class {
     $('#btn-accept-bill').off('click').click((e) => this.handleAcceptSubmit(e, bill));
     $('#btn-refuse-bill').off('click').click((e) => this.handleRefuseSubmit(e, bill));
   }
+  
 
   handleAcceptSubmit = (e, bill) => {
     const newBill = {
